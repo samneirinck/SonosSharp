@@ -58,7 +58,7 @@ namespace SonosSharp.Controllers
                 {
                     TrackNumber = Int32.Parse(responseNode.Element("Track").Value),
                     TrackDuration = TimeSpan.Parse(responseNode.Element("TrackDuration").Value),
-                    TrackMetaData = responseNode.Element("TrackMetaData").Value,
+                    TrackMetaDataRaw = responseNode.Element("TrackMetaData").Value,
                     TrackUri = responseNode.Element("TrackURI").Value,
                     RelativeTime = TimeSpan.Parse(responseNode.Element("RelTime").Value),
                     AbsoluteTime = responseNode.Element("AbsTime").Value,
