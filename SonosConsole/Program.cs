@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using SonosSharp;
 using System;
 using System.Threading.Tasks;
+using SonosSharp.Eventing;
 
 namespace SonosConsole
 {
@@ -27,9 +28,11 @@ namespace SonosConsole
 
         private static async Task DoLogic(string sonosIp)
         {
-            var controller = new SonosController(sonosIp);
+            var controller = new SonosController(sonosIp, new HttpServer());
 
             var sonosDeviceInformation = await controller.GetSonosDeviceAsync();
+
+            await controller.EnableEventsAsync();
 
             Console.WriteLine("Connected to {0}", sonosDeviceInformation.RoomName);
 

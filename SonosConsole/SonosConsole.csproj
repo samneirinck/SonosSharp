@@ -68,6 +68,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SonosSharp.Net\SonosSharp.Net.csproj">
+      <Project>{97167c9a-fa64-4a10-bc7a-ec4212ddbceb}</Project>
+      <Name>SonosSharp.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SonosSharp\SonosSharp.csproj">
       <Project>{e58f0d76-c0d7-4887-83d4-a18506f15f56}</Project>
       <Name>SonosSharp</Name>

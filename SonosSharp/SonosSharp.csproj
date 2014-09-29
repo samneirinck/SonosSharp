@@ -11,7 +11,7 @@
     <RootNamespace>SonosSharp</RootNamespace>
     <AssemblyName>SonosSharp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile158</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -46,6 +46,8 @@
     <None Include="Controllers\GroupManagementController.cs" />
     <None Include="Controllers\MusicServicesController.cs" />
     <None Include="Controllers\QueueController.cs" />
+    <Compile Include="Controllers\GroupRenderingController.cs" />
+    <Compile Include="Eventing\BasicHttpServer.cs" />
     <Compile Include="MediaInfo.cs" />
     <Compile Include="Controllers\RenderingController.cs" />
     <Compile Include="DeviceType.cs" />
@@ -81,6 +83,7 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

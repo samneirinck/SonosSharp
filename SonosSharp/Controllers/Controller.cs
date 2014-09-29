@@ -7,13 +7,15 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SonosSharp.Eventing;
 
 namespace SonosSharp.Controllers
 {
     public abstract class Controller
     {
-        protected abstract string ControlUrl { get; }
-        protected abstract string ActionNamespace { get; }
+        public string ControlUrl { get; set; }
+        public abstract string ActionNamespace { get; }
+        public abstract string ServiceID { get; }
 
         protected Controller(string ipAddress)
         {
@@ -26,6 +28,8 @@ namespace SonosSharp.Controllers
             get { return "<?xml version=\"1.0\" encoding=\"utf-8\"?><s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"><s:Body>{0}</s:Body></s:Envelope>"; }
         }
         protected XNamespace ActionNS { get { return ActionNamespace; } }
+        public string EventUrl { get; set; }
+        public BasicHttpServer HttpServer { get; set; }
 
         protected Task InvokeActionAsync(string action)
         {
@@ -40,7 +44,7 @@ namespace SonosSharp.Controllers
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/xml");
             content.Headers.Add("SOAPAction", String.Format("\"{0}#{1}\"", ActionNamespace, action));
 
-            var result = await httpClient.PostAsync(String.Format("http://{0}:{1}{2}", IpAddress, Constants.SonosPortNumber, ControlUrl), content);
+            var result = await httpClient.PostAsync(String.Format("http://{0}:{1}/{2}", IpAddress, Constants.SonosPortNumber, ControlUrl), content);
             if (!result.IsSuccessStatusCode)
             {
                 throw new InvalidOperationException();
@@ -74,7 +78,7 @@ namespace SonosSharp.Controllers
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/xml");
             content.Headers.Add("SOAPAction", String.Format("\"{0}#{1}\"", ActionNamespace, action));
 
-            var result = await httpClient.PostAsync(String.Format("http://{0}:{1}{2}", IpAddress, Constants.SonosPortNumber, ControlUrl), content);
+            var result = await httpClient.PostAsync(String.Format("http://{0}:{1}/{2}", IpAddress, Constants.SonosPortNumber, ControlUrl), content);
 
             var arr = await result.Content.ReadAsByteArrayAsync();
             string resultString = Encoding.UTF8.GetString(arr, 0, arr.Length);
@@ -105,5 +109,51 @@ namespace SonosSharp.Controllers
             requestBuilder.AppendFormat("</u:{0}>", action);
             return String.Format(SoapBodyTemplate, requestBuilder);
         }
+
+        public async Task SubscribeToEventsAsync()
+        {
+            if (String.IsNullOrEmpty(this.EventUrl))
+                throw new InvalidOperationException("Cannot subscribe to events on a controller without EventUrl set");
+
+            if (this.HttpServer == null)
+                throw new InvalidOperationException("Unable to subscribe to events without http server");
+
+            if (!HttpServer.IsRunning)
+            {
+                await this.HttpServer.StartAsync();
+            }
+
+            var httpClient = new HttpClient();
+
+            var requestMessage = new HttpRequestMessage();
+            requestMessage.Method = new HttpMethod("SUBSCRIBE");
+            requestMessage.RequestUri = new Uri(String.Format("http://{0}:{1}/{2}", IpAddress, Constants.SonosPortNumber, EventUrl));
+            requestMessage.Headers.Host = String.Format("{0}:{1}", IpAddress, Constants.SonosPortNumber);
+            requestMessage.Headers.Add("CALLBACK", "<" + this.HttpServer.CallbackUrl + ">");
+            requestMessage.Headers.Add("NT", "upnp:event");
+            requestMessage.Headers.Add("TIMEOUT", "Second-300");
+            
+            var result = await httpClient.SendAsync(requestMessage);
+            if (!result.IsSuccessStatusCode)
+            {
+                string res = await result.Content.ReadAsStringAsync();
+                throw new Exception("Unable to subscribe for events");
+            }
+        }
+
+        public async Task UnsubscribeFromEventsAsync()
+        {
+            if (String.IsNullOrEmpty(this.EventUrl))
+                throw new InvalidOperationException("Cannot subscribe to events on a controller without EventUrl set");
+
+            if (this.HttpServer == null)
+                throw new InvalidOperationException("Unable to subscribe to events without http server");
+
+            if (this.HttpServer.IsRunning)
+            {
+                await this.HttpServer.StopAsync();
+            }
+        }
+
     }
 }

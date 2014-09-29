@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SonosSharp.Eventing;
 
 namespace SonosSharp.Controllers
 {
@@ -10,16 +11,17 @@ namespace SonosSharp.Controllers
     {
         public AVTransportController(string ipAddress) : base(ipAddress)
         {
+            ControlUrl = "MediaRenderer/AVTransport/Control";
         }
 
-        protected override string ControlUrl
-        {
-            get { return "/MediaRenderer/AVTransport/Control"; }
-        }
-
-        protected override string ActionNamespace
+        public override string ActionNamespace
         {
             get { return "urn:schemas-upnp-org:service:AVTransport:1"; }
+        }
+
+        public override string ServiceID
+        {
+            get { return "urn:upnp-org:serviceId:AVTransport"; }
         }
 
         public Task StopAsync()

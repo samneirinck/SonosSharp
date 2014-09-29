@@ -40,9 +40,10 @@ namespace SonosSharp
 
         private string GetDeviceProperty(string propertyName)
         {
-            return _description.Descendants(Constants.UpnpNamespace + "root")
-                                        .Descendants(Constants.UpnpNamespace + "device")
-                                        .Descendants(Constants.UpnpNamespace + propertyName).First().Value;
+            var node = _description.Descendants(Constants.UpnpNamespace + "root")
+                                   .Descendants(Constants.UpnpNamespace + "device")
+                                   .Descendants(Constants.UpnpNamespace + propertyName).FirstOrDefault();
+            return node != null ? node.Value : string.Empty;
         }
     }
 }

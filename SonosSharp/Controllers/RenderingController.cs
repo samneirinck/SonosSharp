@@ -8,16 +8,17 @@ namespace SonosSharp.Controllers
     {
         public RenderingController(string ipAddress) : base(ipAddress)
         {
+            ControlUrl = "MediaRenderer/RenderingControl/Control";
         }
 
-        protected override string ControlUrl
-        {
-            get { return "/MediaRenderer/RenderingControl/Control"; }
-        }
-
-        protected override string ActionNamespace
+        public override string ActionNamespace
         {
             get { return "urn:schemas-upnp-org:service:RenderingControl:1"; }
+        }
+
+        public override string ServiceID
+        {
+            get { return "urn:upnp-org:serviceId:RenderingControl"; }
         }
 
         public Task<int> GetVolumeAsync(string channel)

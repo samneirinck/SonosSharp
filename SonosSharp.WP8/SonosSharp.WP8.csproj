@@ -83,7 +83,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Discovery\DeviceDiscovery.cs" />
+    <Compile Include="..\SonosSharp.W8\Discovery\DeviceDiscovery.cs">
+      <Link>Discovery\DeviceDiscovery.cs</Link>
+    </Compile>
+    <Compile Include="..\SonosSharp.W8\Eventing\HttpServer.cs">
+      <Link>Eventing\HttpServer.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
