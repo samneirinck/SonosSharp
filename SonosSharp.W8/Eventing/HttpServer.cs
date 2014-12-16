@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace SonosSharp.Eventing
     {
         private bool _isRunning;
         private StreamSocketListener _listener;
-        private int portNumber = 8085;
+        private int portNumber = 8088;
         private string ipAddress;
 
         protected override async Task StartInternalAsync()
@@ -20,14 +21,20 @@ namespace SonosSharp.Eventing
             var hostnames = NetworkInformation.GetHostNames();
 
             var ips = hostnames.Select(x => x.DisplayName).ToList();
-            ipAddress = ips.First();
+            ipAddress = ips.Last();
 
             _listener = new StreamSocketListener();
             _listener.Control.QualityOfService = SocketQualityOfService.Normal;
+            _listener.ConnectionReceived += _listener_ConnectionReceived;
             _listener.ConnectionReceived += OnConnectionReceived;
             //await _listener.BindServiceNameAsync("36648");
             await _listener.BindServiceNameAsync(portNumber.ToString());
             _isRunning = true;
+        }
+
+        void _listener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        {
+            
         }
 
         protected override Task StopInternalAsync()
@@ -65,55 +72,64 @@ namespace SonosSharp.Eventing
         }
 
 
+        private async Task<string> ReadToEndAsync(DataReader reader)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            uint length = 128;
+            uint consumed = length;
+            reader.InputStreamOptions = InputStreamOptions.Partial;
+
+            while (consumed >= length)
+            {
+                consumed = await reader.LoadAsync(length);
+
+                stringBuilder.Append(reader.ReadString(consumed));
+            }
+            return stringBuilder.ToString();
+        }
+
         private async Task HandleRequest(StreamSocket socket)
         {
+
             //Initialize IO classes
-            DataReader reader = new DataReader(socket.InputStream);
-            DataWriter writer = new DataWriter(socket.OutputStream);
-            writer.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+            DataReader inputReader = new DataReader(socket.InputStream);
+            DataWriter outputWriter = new DataWriter(socket.OutputStream);
+            outputWriter.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
 
-            //handle actual HTTP request
-            String request = await StreamReadLine(reader);
-            string[] tokens = request.Split(' ');
-            if (tokens.Length != 3)
-            {
-                throw new Exception("invalid http request line");
-            }
-            string httpMethod = tokens[0].ToUpper();
-            string httpUrl = tokens[1];
-
-            //read HTTP headers - contents ignored in this sample
-            while (!String.IsNullOrEmpty(await StreamReadLine(reader))) ;
-
-            // ... writing of the HTTP response happens here
-            StringBuilder ret = new StringBuilder();
             try
             {
-                bool notFound = false;
+                //handle actual HTTP request
+                string requestString = await ReadToEndAsync(inputReader);
 
-                //HTTP header
-                ret.AppendLine("HTTP/1.0 200 OK");
-                ret.AppendLine("Content-Type: text/html");
-                ret.AppendLine("Connection: close");
-                ret.AppendLine("");
+                bool processed = base.ProcessHttpRequest(requestString);
 
-                //beginning of HTML element
-                ret.AppendLine("<html><body><h1>Okidoki</h1></body></html>");
-                writer.WriteString(ret.ToString());
+                if (processed)
+                {
+
+                    //HTTP header
+                    outputWriter.WriteString("HTTP/1.0 200 OK\r\n");
+                    outputWriter.WriteString("Connection: close\r\n");
+                }
+                else
+                {
+                    outputWriter.WriteString("HTTP/1.0 500 Internal server error\r\n");
+                    outputWriter.WriteString("Connection: close\r\n");
+                    outputWriter.WriteString("\r\n");
+                }
+
+                await outputWriter.StoreAsync(); //actually write data to the network interface
             }
-
-            catch (Exception ex)//any exception leads to an Internal server error
+            catch (Exception ex)
             {
-                writer.WriteString("HTTP/1.0 500 Internal server error\r\n");
-                writer.WriteString("Connection: close\r\n");
-                writer.WriteString("\r\n");
-                writer.WriteString(ex.Message);
+                outputWriter.WriteString("HTTP/1.0 500 Internal server error\r\n");
+                outputWriter.WriteString("Connection: close\r\n");
+                outputWriter.WriteString("\r\n");
+                outputWriter.WriteString(ex.ToString());
             }
-
-
-            await writer.StoreAsync();//actually write data to the network interface
-
-            socket.Dispose();
+            finally
+            {
+                socket.Dispose();
+            }
         }
 
         public override string CallbackUrl

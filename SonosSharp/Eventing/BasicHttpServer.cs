@@ -21,14 +21,20 @@ namespace SonosSharp.Eventing
 
         public async Task StartAsync()
         {
-            _isRunning = true;
-            await StartInternalAsync();
+            if (!_isRunning)
+            {
+                _isRunning = true;
+                await StartInternalAsync();
+            }
         }
 
         public async Task StopAsync()
         {
-            await StopInternalAsync();
-            _isRunning = false;
+            if (_isRunning)
+            {
+                await StopInternalAsync();
+                _isRunning = false;
+            }
         }
 
         protected void OnVariableChanged(string variableName, string variableValue)
@@ -89,8 +95,14 @@ namespace SonosSharp.Eventing
             string currentLine = reader.ReadLine();
             while (!String.IsNullOrWhiteSpace(currentLine))
             {
+                if (currentLine.StartsWith("GET") || currentLine.StartsWith("NOTIFY"))
+                {
+                    currentLine = reader.ReadLine();
+                    continue;
+                }
+
                 int indexOfColon = currentLine.IndexOf(':');
-                if (indexOfColon < 0)
+                if (!currentLine.StartsWith("GET") && indexOfColon < 0)
                 {
                     break;
                 }

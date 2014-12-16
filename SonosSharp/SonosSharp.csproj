@@ -39,14 +39,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <None Include="Controllers\AlarmClockController.cs" />
+    <Compile Include="Controllers\ConnectionManagerController.cs" />
+    <Compile Include="Controllers\ContentDirectoryController.cs" />
+    <Compile Include="MusicServices\ServiceDescription.cs" />
+    <Compile Include="Controllers\SystemPropertiesController.cs" />
+    <Compile Include="MusicServices\ServicePolicy.cs" />
+    <Compile Include="TransportInfo.cs" />
+    <Compile Include="XElementExtensions.cs" />
+    <Compile Include="Controllers\AlarmClockController.cs" />
     <Compile Include="Controllers\AVTransportController.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <None Include="Controllers\DevicePropertiesController.cs" />
-    <None Include="Controllers\GroupManagementController.cs" />
-    <None Include="Controllers\MusicServicesController.cs" />
-    <None Include="Controllers\QueueController.cs" />
+    <Compile Include="Controllers\DevicePropertiesController.cs" />
+    <Compile Include="Controllers\GroupManagementController.cs" />
+    <Compile Include="Controllers\MusicServicesController.cs" />
+    <Compile Include="Controllers\QueueController.cs" />
     <Compile Include="Controllers\GroupRenderingController.cs" />
+    <Compile Include="Controllers\ZoneGroupTopologyController.cs" />
     <Compile Include="Eventing\BasicHttpServer.cs" />
     <Compile Include="MediaInfo.cs" />
     <Compile Include="Controllers\RenderingController.cs" />
@@ -56,6 +64,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SonosController.cs" />
     <Compile Include="SonosDevice.cs" />
+    <Compile Include="ZoneGroup.cs" />
+    <Compile Include="ZoneGroupMember.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks">

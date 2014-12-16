@@ -8,18 +8,15 @@ namespace SonosSharp.Controllers
     {
         public RenderingController(string ipAddress) : base(ipAddress)
         {
-            ControlUrl = "MediaRenderer/RenderingControl/Control";
         }
 
-        public override string ActionNamespace
+        public const string ServiceTypeValue = "urn:schemas-upnp-org:service:RenderingControl:1";
+
+        public override string ServiceType
         {
-            get { return "urn:schemas-upnp-org:service:RenderingControl:1"; }
+            get { return ServiceTypeValue; }
         }
 
-        public override string ServiceID
-        {
-            get { return "urn:upnp-org:serviceId:RenderingControl"; }
-        }
 
         public Task<int> GetVolumeAsync(string channel)
         {
@@ -69,5 +66,15 @@ namespace SonosSharp.Controllers
             return InvokeActionAsync("SetVolume", new Dictionary<string, object> {{"Channel", channel}, {"DesiredVolume", volume}});
         }
 
+
+        public async Task<bool> GetMuteAsync()
+        {
+            return (await InvokeFuncAsync<int>("GetMute", new Dictionary<string, object> { { "InstanceID", 0 } }) != 0);
+        }
+
+        public Task SetMuteAsync(bool mute)
+        {
+            return InvokeActionAsync("SetMute", new Dictionary<string, object> { { "InstanceID", 0 }, { "Channel", "Master" }, { "DesiredMute", mute } });
+        }
     }
 }

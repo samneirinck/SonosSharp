@@ -22,12 +22,16 @@ namespace SonosSharp
             XNamespace upnpNS = "urn:schemas-upnp-org:metadata-1-0/upnp/";
             XNamespace metadataNS = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/";
 
-            XElement element = XElement.Parse(_trackMetaDataRaw).Element(metadataNS + "item");
+            try
+            {
+                XElement element = XElement.Parse(_trackMetaDataRaw).Element(metadataNS + "item");
 
-            TrackMetaData = new TrackMetaData
-                {
-                    AlbumArtUri = element.Element(upnpNS + "albumArtURI").Value
-                };
+                TrackMetaData = new TrackMetaData
+                    {
+                        AlbumArtUri = element.Element(upnpNS + "albumArtURI").Value
+                    };
+            }
+            catch (Exception) { }
         }
 
         public TrackMetaData TrackMetaData { get; set; }

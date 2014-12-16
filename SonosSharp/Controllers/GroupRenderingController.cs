@@ -6,14 +6,12 @@
         {
         }
 
-        public override string ActionNamespace
+        public const string ServiceTypeValue = "urn:upnp-org:serviceId:GroupRenderingControl:1";
+
+        public override string ServiceType
         {
-            get { return "urn:upnp-org:serviceId:GroupRenderingControl"; }
+            get { return ServiceTypeValue; }
         }
 
-        public override string ServiceID
-        {
-            get { return "urn:upnp-org:serviceId:GroupRenderingControl"; }
-        }
     }
 }
