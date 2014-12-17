@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosSharp", "SonosSharp\So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosSharp.WP8", "SonosSharp.WP8\SonosSharp.WP8.csproj", "{D6E32A11-C045-4A0F-80A2-FB5704115571}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosSharp.WinRT", "SonosSharp.WinRT\SonosSharp.WinRT.csproj", "{ED78D646-AAD9-4A04-B825-343A077E9A76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosSharp.WinRT", "SonosSharp.W8\SonosSharp.WinRT.csproj", "{ED78D646-AAD9-4A04-B825-343A077E9A76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonosSharp.Net", "SonosSharp.Net\SonosSharp.Net.csproj", "{97167C9A-FA64-4A10-BC7A-EC4212DDBCEB}"
 EndProject
