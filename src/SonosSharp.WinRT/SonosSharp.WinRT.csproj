@@ -109,6 +109,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Discovery\DeviceDiscovery.cs" />
     <Compile Include="Eventing\HttpServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
