@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>sonossharp</id>
+	<version>0.1.0</version>
+	<title>SonosSharp</title>
+	<authors>Sam Neirinck</authors>
+	<description>Library to talk to a Sonos system, fully asynchronous</description>
+	<projectUrl>https://github.com/samneirinck/SonosSharp/</projectUrl>
+	<tags>sonos sonossharp</tags>
+	
+	<dependencies>
+	  <group>
+	    <dependency id="Microsoft.Bcl" />
+		<dependency id="Microsoft.Bcl.Build" />
+		<dependency id="Microsoft.Net.Http" />
+	  </group>
+	</dependencies>
+  </metadata>
+</package>
