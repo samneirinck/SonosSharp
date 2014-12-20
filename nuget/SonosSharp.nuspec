@@ -11,11 +11,11 @@
 	</metadata>
 	<files>
 		<!-- .net -->
-		<file src="..\src\SonosSharp\bin\$configuration$\SonosSharp.dll" target="lib\net45" />
-		<file src="..\src\SonosSharp.Net\bin\$configuration$\SonosSharp.dll" target="lib\net45" />
+		<file src="..\src\SonosSharp\bin\Release\SonosSharp.dll" target="lib\net45" />
+		<file src="..\src\SonosSharp.Net\bin\Release\SonosSharp.Net.dll" target="lib\net45" />
 
 		<!-- WinRT -->
-		<file src="..\src\SonosSharp\bin\$configuration$\SonosSharp.dll" target="lib\portable-win81+wpa81\" />
-		<file src="..\src\SonosSharp.WinRT\bin\$configuration$\SonosSharp.WinRT.dll" target="lib\portable-win81+wpa81\" />
+		<file src="..\src\SonosSharp\bin\Release\SonosSharp.dll" target="lib\portable-win81+wpa81\" />
+		<file src="..\src\SonosSharp.WinRT\bin\Release\SonosSharp.WinRT.dll" target="lib\portable-win81+wpa81\" />
 	</files>
 </package>
