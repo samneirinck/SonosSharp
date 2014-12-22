@@ -141,7 +141,7 @@ namespace SonosSharp.Controllers
 
             var requestMessage = new HttpRequestMessage();
             requestMessage.Method = new HttpMethod("SUBSCRIBE");
-            requestMessage.RequestUri = new Uri(String.Format("http://{0}:{1}/{2}", IpAddress, Constants.SonosPortNumber, EventUrl));
+            requestMessage.RequestUri = new Uri(String.Format("http://{0}:{1}{2}", IpAddress, Constants.SonosPortNumber, EventUrl));
             requestMessage.Headers.Host = String.Format("{0}:{1}", IpAddress, Constants.SonosPortNumber);
             requestMessage.Headers.Add("CALLBACK", "<" + this.HttpServer.CallbackUrl + ">");
             requestMessage.Headers.Add("NT", "upnp:event");
