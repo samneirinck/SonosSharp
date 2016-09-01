@@ -10,7 +10,7 @@ namespace SonosSharp.Services
 {
     public interface IDeviceDiscovery
     {
-        Task<bool> DiscoverDevicesAsync();
+        Task DiscoverDevicesAsync();
     }
 
     public class DeviceDiscovery : IDeviceDiscovery
@@ -25,9 +25,9 @@ namespace SonosSharp.Services
                         "MX:3\r\n\r\n";
 
 
-        public async Task<bool> DiscoverDevicesAsync()
+        public Task DiscoverDevicesAsync()
         {
-            return DiscoverDevicesAsync(TimeSpan.FromSeconds(5));
+             return DiscoverDevicesAsync(TimeSpan.FromSeconds(5));
         }
 
         public async Task DiscoverDevicesAsync(TimeSpan timeout)
@@ -46,8 +46,6 @@ namespace SonosSharp.Services
                 var result = await client.ReceiveAsync();
                 Console.WriteLine(Encoding.UTF8.GetString(result.Buffer));
             }
-
-            return false;
         }
     }
 }
