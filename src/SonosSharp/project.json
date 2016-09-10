@@ -1,14 +1,14 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "0.1.0-*",
   "buildOptions": {
-    "debugType": "portable"
+    "warningsAsErrors": true
+
   },
-  "dependencies": {},
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "System.Reactive":  "3.0.0" 
+  },
   "frameworks": {
-    "netstandard1.6": {
-      "dependencies": {
-        "NETStandard.Library": "1.6.0"
-      }
-    }
+    "netstandard1.3": {} 
   }
 }
