@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SonosSharp.Services
 {
@@ -31,15 +34,19 @@ namespace SonosSharp.Services
         }
 
 
-        protected async Task<string> InvokeActionAsync(string actionName)
+        protected async Task<XElement> InvokeActionAsync(string actionName)
         {
             Console.WriteLine("Invoking " + actionName);
-            var content = new UPnPContent(actionName);
+            var content = new StringContent(@"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/""><s:Body><u:GetZoneGroupState xmlns:u=""urn:schemas-upnp-org:service:ZoneGroupTopology:1""/></s:Body></s:Envelope>");
+
+            content.Headers.Add("SOAPACTION", "urn:schemas-upnp-org:service:ZoneGroupTopology:1#GetZoneGroupState");
 
             var htpResult = await HttpClient.PostAsync(ServiceUri, content).ConfigureAwait(false);
-            Console.WriteLine("Got result");
+            Console.WriteLine($"Got result {htpResult.StatusCode}");
 
-            return await htpResult.Content.ReadAsStringAsync();
+            var xElement = XElement.Load(await htpResult.Content.ReadAsStreamAsync().ConfigureAwait(false));
+
+            return xElement.Descendants().First().Descendants().First().Descendants().First();
         }
     }
 }

@@ -73,7 +73,7 @@ namespace SonosSharp
         }
     }
 
-    public class UPnPContent : HttpContent
+    public class UPnPContent : ByteArrayContent
     {
         //private static string template =
         //    @"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/""><s:Body>{0}</s:Body></s:Envelope>";
@@ -81,8 +81,8 @@ namespace SonosSharp
         //private HttpContent _actualContent;
 
         public UPnPContent(string actionName)
+            : base(null)
         {
-
         }
 
         protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)

@@ -5,11 +5,11 @@
   },
   "dependencies": {
     "dotnet-test-xunit": "2.2.0-*",
+    "NSubstitute": "2.0.0-*",
     "SonosSharp": {
       "target": "project"
     },
-    "xunit": "2.2.0-*",
-    "Moq": "4.6.36-*"
+    "xunit": "2.2.0-*"
   },
   "frameworks": {
     "netcoreapp1.0": {

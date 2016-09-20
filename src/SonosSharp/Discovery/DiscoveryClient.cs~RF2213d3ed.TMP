@@ -6,17 +6,13 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
-namespace SonosSharp.Services
+namespace SonosSharp
 {
-    public interface IDeviceDiscovery
-    {
-        Task DiscoverDevicesAsync();
-    }
-
-    public class DeviceDiscovery : IDeviceDiscovery
+    public class DiscoveryClient : IDiscoveryClient
     {
         private static IPAddress MulticastIpAddress = IPAddress.Parse("239.255.255.250");
         private static IPEndPoint MulticastIpEndpoint = new IPEndPoint(MulticastIpAddress, 1900);
@@ -27,9 +23,33 @@ namespace SonosSharp.Services
                                "MX: 1\r\n" +
                                "ST: urn:schemas-upnp-org:device:ZonePlayer:1\r\n\r\n";
 
+        private readonly IUdpClientFactory _udpClientFactory;
+
+        public DiscoveryClient(new UdpClientFactory())
+        {
+        }
+
+        public DiscoveryClient(IUdpClientFactory udpClientFactory)
+        {
+            if (udpClientFactory == null)
+                throw new ArgumentNullException(nameof(udpClientFactory));
+
+            _udpClientFactory = udpClientFactory;
+        }
+
+        public Task<IReadOnlyCollection<Zone>> DiscoverZonesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IReadOnlyCollection<Device>> IDiscoveryClient.DiscoverDevicesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task DiscoverDevicesAsync()
         {
-            return DiscoverDevicesAsync(TimeSpan.FromSeconds(3));
+            return DiscoverDevicesAsync(TimeSpan.FromSeconds(30));
         }
 
         public async Task<IEnumerable<SonosDevice>> DiscoverDevicesAsync(TimeSpan timeout)
@@ -56,8 +76,7 @@ namespace SonosSharp.Services
         {
             return Observable.Create(async (IObserver<SonosDevice> observer, CancellationToken token) =>
             {
-                UdpClient udpClient = new UdpClient();
-                udpClient.Client.Bind(new IPEndPoint(IPAddress.Any, 0));
+                IUdpClient udpClient = _udpClientFactory.Create(new IPEndPoint(IPAddress.Any, 0));
 
                 var bytes = Encoding.UTF8.GetBytes(Message);
                 await udpClient.SendAsync(bytes, bytes.Length, MulticastIpEndpoint);
@@ -79,4 +98,6 @@ namespace SonosSharp.Services
             });
         }
     }
+
+
 }

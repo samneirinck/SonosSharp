@@ -1,0 +1,12 @@
+﻿<ZoneGroups>
+	<ZoneGroup Coordinator="RINCON_B8E93734523601400" ID="RINCON_000E58B257A701400:212">
+		<ZoneGroupMember UUID="RINCON_B8E93734523601400" Location="http://192.168.0.100:1400/xml/device_description.xml" ZoneName="Kitchen" Icon="x-rincon-roomicon:kitchen" Configuration="1" SoftwareVersion="33.15-32291" MinCompatibleVersion="32.0-00000" LegacyCompatibleVersion="25.0-00000" BootSeq="124" WirelessMode="0" WirelessLeafOnly="0" HasConfiguredSSID="0" ChannelFreq="2462" BehindWifiExtender="0" WifiEnabled="1" Orientation="3" RoomCalibrationState="4"/>
+	</ZoneGroup>
+	<ZoneGroup Coordinator="RINCON_000E58B257A701400" ID="RINCON_000E58B257A701400:213">
+		<ZoneGroupMember UUID="RINCON_000E58B257A701400" Location="http://192.168.0.157:1400/xml/device_description.xml" ZoneName="Living" Icon="x-rincon-roomicon:living" Configuration="1" SoftwareVersion="33.15-32291" MinCompatibleVersion="32.0-00000" LegacyCompatibleVersion="25.0-00000" BootSeq="38" WirelessMode="0" WirelessLeafOnly="0" HasConfiguredSSID="0" ChannelFreq="2462" BehindWifiExtender="0" WifiEnabled="1" Orientation="0" RoomCalibrationState="4"/>
+	</ZoneGroup>
+	<ZoneGroup Coordinator="RINCON_B8E937E408D801400" ID="RINCON_B8E937E408D801400:28">
+		<ZoneGroupMember UUID="RINCON_B8E93730F3E801400" Location="http://192.168.0.121:1400/xml/device_description.xml" ZoneName="Office" Icon="x-rincon-roomicon:office" Configuration="1" SoftwareVersion="33.15-32291" MinCompatibleVersion="32.0-00000" LegacyCompatibleVersion="25.0-00000" BootSeq="17" WirelessMode="0" WirelessLeafOnly="0" HasConfiguredSSID="0" ChannelFreq="2462" BehindWifiExtender="0" WifiEnabled="1" Orientation="3" RoomCalibrationState="4"/>
+		<ZoneGroupMember UUID="RINCON_B8E937E408D801400" Location="http://192.168.0.101:1400/xml/device_description.xml" ZoneName="Bathroom" Icon="x-rincon-roomicon:bathroom" Configuration="1" SoftwareVersion="33.15-32291" MinCompatibleVersion="32.0-00000" LegacyCompatibleVersion="25.0-00000" BootSeq="39" WirelessMode="0" WirelessLeafOnly="0" HasConfiguredSSID="0" ChannelFreq="2462" BehindWifiExtender="0" WifiEnabled="1" Orientation="0" RoomCalibrationState="4"/>
+	</ZoneGroup>
+</ZoneGroups>

@@ -2,7 +2,7 @@
 
 namespace SonosSharp
 {
-    public class SonosDevice
+    public class Device
     {
         /// <summary>
         /// The IP Address of the Sonos Device.
@@ -10,7 +10,7 @@ namespace SonosSharp
         public IPAddress IpAddress { get; }
         public string Name { get; private set; }
 
-        public SonosDevice(IPAddress ipAddress)
+        public Device(IPAddress ipAddress)
         {
             IpAddress = ipAddress;
         }

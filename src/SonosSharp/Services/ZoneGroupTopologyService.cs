@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SonosSharp.Services
 {
@@ -22,8 +24,13 @@ namespace SonosSharp.Services
             var zones = new List<Zone>();
             Console.WriteLine($"Getting zone group topology from {IpAddress}");
 
-            string result = await InvokeActionAsync("GetZoneGroupState");
-            Console.WriteLine(result);
+            XElement zoneGroupState = await InvokeActionAsync("GetZoneGroupState");
+            XElement zoneGroups = XElement.Parse(zoneGroupState.Descendants().First().Value);
+
+            foreach (var zoneGroup in zoneGroups.Descendants())
+            {
+                
+            }
 
             return new ReadOnlyCollection<Zone>(zones);
         }
