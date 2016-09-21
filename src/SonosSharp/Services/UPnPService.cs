@@ -18,7 +18,9 @@ namespace SonosSharp.Services
         public IPAddress IpAddress { get; }
         protected HttpClient HttpClient { get; }
         protected Uri ServiceUri { get; }
-        protected abstract string SoapNamespace { get; }
+        protected abstract string ActionNamespace { get; }
+
+        protected XNamespace ActionXNamespace => ActionNamespace;
 
         protected UPnPService(IPAddress ipAddress, string serviceName)
         {
@@ -46,7 +48,10 @@ namespace SonosSharp.Services
 
             var xElement = XElement.Load(await htpResult.Content.ReadAsStreamAsync().ConfigureAwait(false));
 
-            return xElement.Descendants().First().Descendants().First().Descendants().First();
+
+            Console.WriteLine(xElement.ToString());
+            return xElement.Element(Constants.XNamespaces.Soap + "Body")?
+                .Element(ActionXNamespace + actionName + "Response");
         }
     }
 }

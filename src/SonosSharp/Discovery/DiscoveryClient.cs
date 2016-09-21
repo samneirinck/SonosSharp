@@ -68,6 +68,7 @@ namespace SonosSharp
                                                                 .WithCancellation(cancellationToken)
                                                                 .ConfigureAwait(false);
 
+                Console.WriteLine("Received a result");
                 if (receiveResult.RemoteEndPoint != null)
                 {
                     // We only use SSDP to discover *any* Sonos device.
@@ -83,7 +84,7 @@ namespace SonosSharp
         {
             var service = new ZoneGroupTopologyService(deviceIpAddress);
 
-            await service.GetZoneGroupStateAsync();
+            var zones = await service.GetZoneGroupStateAsync();
 
             return null;
         }

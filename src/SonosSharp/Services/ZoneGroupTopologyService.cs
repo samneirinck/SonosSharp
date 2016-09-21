@@ -11,7 +11,7 @@ namespace SonosSharp.Services
 {
     public class ZoneGroupTopologyService : UPnPService
     {
-        protected override string SoapNamespace => "urn:schemas-upnp-org:service:ZoneGroupTopology:1";
+        protected override string ActionNamespace => "urn:schemas-upnp-org:service:ZoneGroupTopology:1";
 
         public ZoneGroupTopologyService(IPAddress ipAddress)
             : base(ipAddress, "ZoneGroupTopology")
@@ -25,11 +25,13 @@ namespace SonosSharp.Services
             Console.WriteLine($"Getting zone group topology from {IpAddress}");
 
             XElement zoneGroupState = await InvokeActionAsync("GetZoneGroupState");
-            XElement zoneGroups = XElement.Parse(zoneGroupState.Descendants().First().Value);
-
-            foreach (var zoneGroup in zoneGroups.Descendants())
+            XElement woefke = XElement.Parse(zoneGroupState.Descendants().First().Value);
+            foreach (var zoneGroup in woefke.Descendants())
             {
-                
+                var zone = new Zone();
+                Console.WriteLine(zoneGroup);
+
+                zones.Add(zone);
             }
 
             return new ReadOnlyCollection<Zone>(zones);
