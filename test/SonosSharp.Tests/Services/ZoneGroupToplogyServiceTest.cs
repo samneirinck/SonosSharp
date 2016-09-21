@@ -8,16 +8,5 @@ namespace SonosSharp.Services
 {
     public class ZoneGroupToplogyServiceTest
     {
-        [Fact]
-        public async Task Do()
-        {
-            // Arrange
-            var svc = new ZoneGroupTopologyService(null);
-
-            // Act
-            await svc.GetZoneGroupStateAsync();
-
-            // Assert
-        }
     }
 }
